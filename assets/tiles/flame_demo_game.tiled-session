@@ -3,21 +3,54 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "map01.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "fileStates": {
         "TX Plant.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 2.4,
             "scaleInEditor": 1
         },
         "TX Player.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 2.4,
             "scaleInEditor": 1
         },
         "TX Props.tsx": {
+            "scaleInDock": 2.4,
+            "scaleInEditor": 1
+        },
+        "TX Shadow Plant.tsx": {
+            "scaleInDock": 2.4,
+            "scaleInEditor": 1
+        },
+        "TX Shadow.tsx": {
+            "scaleInDock": 2.4,
+            "scaleInEditor": 1
+        },
+        "TX Struct.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
+        },
+        "TX Tileset Grass.tsx": {
+            "scaleInDock": 2.4,
+            "scaleInEditor": 1
+        },
+        "TX Tileset Stone Ground.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "TX Tileset Wall.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "map01.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 680,
+                "y": 348.3333333333333
+            }
         }
     },
     "last.imagePath": "C:/apps/demo_flame_game/assets/images",
@@ -27,12 +60,29 @@
     "map.tileWidth": 16,
     "map.width": 120,
     "openFiles": [
+        "TX Plant.tsx",
+        "TX Player.tsx",
+        "TX Props.tsx",
+        "TX Shadow Plant.tsx",
+        "TX Shadow.tsx",
+        "TX Struct.tsx",
+        "TX Tileset Grass.tsx",
+        "TX Tileset Stone Ground.tsx",
+        "TX Tileset Wall.tsx",
+        "map01.tmx"
     ],
     "project": "flame_demo_game.tiled-project",
     "recentFiles": [
         "TX Plant.tsx",
         "TX Player.tsx",
-        "TX Props.tsx"
+        "TX Props.tsx",
+        "TX Shadow Plant.tsx",
+        "TX Shadow.tsx",
+        "TX Struct.tsx",
+        "TX Tileset Grass.tsx",
+        "TX Tileset Stone Ground.tsx",
+        "TX Tileset Wall.tsx",
+        "map01.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
