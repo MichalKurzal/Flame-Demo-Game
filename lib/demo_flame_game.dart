@@ -33,6 +33,7 @@ class DemoFlameGame extends FlameGame with KeyboardEvents {
 
   @override
   Future<void> onLoad() async {
+    await images.loadAllImages();
     camera.viewfinder.anchor = Anchor.topLeft;
     camera.viewfinder.zoom = _startZoom;
 
