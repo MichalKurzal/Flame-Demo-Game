@@ -1,29 +1,53 @@
 import 'dart:async';
-import 'dart:ui';
 
+import 'package:demo_flame_game/components/play_area.dart';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-import 'package:flame_tiled/flame_tiled.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
-class DemoFlameGame extends FlameGame {
+class DemoFlameGame extends FlameGame with KeyboardEvents {
   DemoFlameGame()
       : super(
             camera:
                 CameraComponent.withFixedResolution(width: 1920, height: 1024));
 
-  late TiledComponent level;
+  static const double _minZoom = 1.0;
+  static const double _maxZoom = 2.0;
+  final double _startZoom = _minZoom;
 
   @override
-  Color backgroundColor() => const Color.fromARGB(0, 33, 65, 76);
+  KeyEventResult onKeyEvent(
+      KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    final qKey = keysPressed.contains(LogicalKeyboardKey.keyQ);
+    final eKey = keysPressed.contains(LogicalKeyboardKey.keyE);
+
+    if (qKey) {
+      _processScalePLUS();
+    } else if (eKey) {
+      _processScaleMINUS();
+    }
+    return super.onKeyEvent(event, keysPressed);
+  }
 
   @override
   Future<void> onLoad() async {
     camera.viewfinder.anchor = Anchor.topLeft;
+    camera.viewfinder.zoom = _startZoom;
 
-    level = await TiledComponent.load('map01.tmx', Vector2.all(16));
-
-    world.add(level);
+    world.add(PlayArea());
 
     return super.onLoad();
+  }
+
+  void _processScalePLUS() {
+    final newZoom = camera.viewfinder.zoom + 0.1;
+    camera.viewfinder.zoom = newZoom.clamp(_minZoom, _maxZoom);
+  }
+
+  void _processScaleMINUS() {
+    final newZoom = camera.viewfinder.zoom - 0.1;
+    camera.viewfinder.zoom = newZoom.clamp(_minZoom, _maxZoom);
   }
 }
