@@ -12,7 +12,22 @@ class PlayArea extends RectangleComponent with HasGameReference<DemoFlameGame> {
   Future<void> onLoad() async {
     level = await TiledComponent.load('map01.tmx', Vector2.all(16));
     add(level);
-    add(Player());
+
+    ObjectGroup? spawnPoints =
+        level.tileMap.getLayer<ObjectGroup>('SpawnPoints');
+
+    if (spawnPoints != null) {
+      for (TiledObject spawnPoint in spawnPoints.objects) {
+        switch (spawnPoint.class_) {
+          case 'Player':
+            final player =
+                Player(position: Vector2(spawnPoint.x, spawnPoint.y));
+            add(player);
+            break;
+        }
+      }
+    }
+
     return super.onLoad();
   }
 }

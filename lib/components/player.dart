@@ -7,6 +7,8 @@ enum PlayerState { down, up, left, right }
 
 class Player extends SpriteAnimationGroupComponent
     with HasGameRef<DemoFlameGame> {
+  Player({super.position});
+
   late SpriteAnimation downAnimation;
   late SpriteAnimation upAnimation;
   late SpriteAnimation leftAnimation;
@@ -20,34 +22,13 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _loadAnimations() {
-    downAnimation = SpriteAnimation.fromFrameData(
-        game.images.fromCache('TX Player.png'),
-        SpriteAnimationData.sequenced(
-            amount: 1, stepTime: 0.01, textureSize: Vector2(32, 64)));
+    downAnimation = _defineAnimation(Vector2.all(0));
 
-    upAnimation = SpriteAnimation.fromFrameData(
-        game.images.fromCache('TX Player.png'),
-        SpriteAnimationData.sequenced(
-            amount: 1,
-            stepTime: 0.01,
-            textureSize: Vector2(32, 64),
-            texturePosition: Vector2(32, 0)));
+    upAnimation = _defineAnimation(Vector2(32, 0));
 
-    leftAnimation = SpriteAnimation.fromFrameData(
-        game.images.fromCache('TX Player.png'),
-        SpriteAnimationData.sequenced(
-            amount: 1,
-            stepTime: 0.01,
-            textureSize: Vector2(32, 64),
-            texturePosition: Vector2(64, 0)));
+    leftAnimation = _defineAnimation(Vector2(64, 0));
 
-    rightAnimation = SpriteAnimation.fromFrameData(
-        game.images.fromCache('TX Player.png'),
-        SpriteAnimationData.sequenced(
-            amount: 1,
-            stepTime: 0.01,
-            textureSize: Vector2(32, 64),
-            texturePosition: Vector2(64, 0)));
+    rightAnimation = _defineAnimation(Vector2(64, 0));
 
     animations = {
       PlayerState.down: downAnimation,
@@ -56,6 +37,16 @@ class Player extends SpriteAnimationGroupComponent
       PlayerState.right: rightAnimation
     };
 
-    current = PlayerState.left;
+    current = PlayerState.down;
+  }
+
+  SpriteAnimation _defineAnimation(Vector2 v2) {
+    return SpriteAnimation.fromFrameData(
+        game.images.fromCache('TX Player.png'),
+        SpriteAnimationData.sequenced(
+            amount: 1,
+            stepTime: 0.01,
+            textureSize: Vector2(32, 64),
+            texturePosition: v2));
   }
 }
