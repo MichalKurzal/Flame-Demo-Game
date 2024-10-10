@@ -17,7 +17,7 @@ class Player extends SpriteAnimationGroupComponent
   late SpriteAnimation leftAnimation;
   late SpriteAnimation rightAnimation;
 
-  PlayerDirection playerDirection = PlayerDirection.left;
+  PlayerDirection playerDirection = PlayerDirection.none;
   double moveSpeed = 100;
   Vector2 velocity = Vector2.zero();
   bool isFacingLeft = true;
@@ -36,7 +36,38 @@ class Player extends SpriteAnimationGroupComponent
 
   @override
   bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    // TODO: implement onKeyEvent
+    final isLeftKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyA) ||
+        keysPressed.contains(LogicalKeyboardKey.arrowLeft);
+    final isRightKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyD) ||
+        keysPressed.contains(LogicalKeyboardKey.arrowRight);
+    final isUpKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyW) ||
+        keysPressed.contains(LogicalKeyboardKey.arrowUp);
+    final isDownKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyS) ||
+        keysPressed.contains(LogicalKeyboardKey.arrowDown);
+
+    List<bool> gameKeys = [
+      isLeftKeyPressed,
+      isRightKeyPressed,
+      isDownKeyPressed,
+      isUpKeyPressed
+    ];
+
+    int howManyPressed = gameKeys.where((element) => element).length;
+
+    if (howManyPressed > 1) {
+      playerDirection = PlayerDirection.none;
+    } else if (isLeftKeyPressed) {
+      playerDirection = PlayerDirection.left;
+    } else if (isRightKeyPressed) {
+      playerDirection = PlayerDirection.right;
+    } else if (isUpKeyPressed) {
+      playerDirection = PlayerDirection.up;
+    } else if (isDownKeyPressed) {
+      playerDirection = PlayerDirection.down;
+    } else {
+      playerDirection = PlayerDirection.none;
+    }
+
     return super.onKeyEvent(event, keysPressed);
   }
 

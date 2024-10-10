@@ -7,7 +7,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-class DemoFlameGame extends FlameGame with KeyboardEvents {
+class DemoFlameGame extends FlameGame with HasKeyboardHandlerComponents {
   DemoFlameGame()
       : super(
             camera:
