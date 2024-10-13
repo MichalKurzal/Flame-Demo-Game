@@ -18,7 +18,7 @@ class DemoFlameGame extends FlameGame
 
   static const double _minZoom = 1.0;
   static const double _maxZoom = 2.0;
-  final double _startZoom = _minZoom;
+  final double _startZoom = 1.5;
 
   late JoystickComponent joystickComponent;
 
@@ -39,12 +39,14 @@ class DemoFlameGame extends FlameGame
   @override
   Future<void> onLoad() async {
     await images.loadAllImages();
-    camera.viewfinder.anchor = Anchor.topLeft;
+    camera.viewfinder.anchor = Anchor.center;
     camera.viewfinder.zoom = _startZoom;
 
     addJoystick();
 
     Player player = Player(joystick: joystickComponent);
+
+    camera.follow(player);
 
     world.add(PlayArea(player: player));
 
