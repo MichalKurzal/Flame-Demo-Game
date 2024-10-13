@@ -1,13 +1,16 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:demo_flame_game/components/play_area.dart';
+import 'package:demo_flame_game/components/player.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-class DemoFlameGame extends FlameGame with HasKeyboardHandlerComponents {
+class DemoFlameGame extends FlameGame
+    with HasKeyboardHandlerComponents, DragCallbacks {
   DemoFlameGame()
       : super(
             camera:
@@ -16,6 +19,8 @@ class DemoFlameGame extends FlameGame with HasKeyboardHandlerComponents {
   static const double _minZoom = 1.0;
   static const double _maxZoom = 2.0;
   final double _startZoom = _minZoom;
+
+  late JoystickComponent joystickComponent;
 
   @override
   KeyEventResult onKeyEvent(
@@ -37,7 +42,11 @@ class DemoFlameGame extends FlameGame with HasKeyboardHandlerComponents {
     camera.viewfinder.anchor = Anchor.topLeft;
     camera.viewfinder.zoom = _startZoom;
 
-    world.add(PlayArea());
+    addJoystick();
+
+    Player player = Player(joystick: joystickComponent);
+
+    world.add(PlayArea(player: player));
 
     return super.onLoad();
   }
@@ -50,5 +59,17 @@ class DemoFlameGame extends FlameGame with HasKeyboardHandlerComponents {
   void _processScaleMINUS() {
     final newZoom = camera.viewfinder.zoom - 0.1;
     camera.viewfinder.zoom = newZoom.clamp(_minZoom, _maxZoom);
+  }
+
+  void addJoystick() {
+    joystickComponent = JoystickComponent(
+      margin: const EdgeInsets.only(left: 64, bottom: 64),
+      knob: SpriteComponent(sprite: Sprite(images.fromCache('HUD/Knob.png'))),
+      background:
+          SpriteComponent(sprite: Sprite(images.fromCache('HUD/Joystick.png'))),
+    );
+    if (Platform.isAndroid || Platform.isIOS) {
+      camera.viewport.add(joystickComponent);
+    }
   }
 }

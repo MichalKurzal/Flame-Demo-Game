@@ -6,7 +6,10 @@ import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
 class PlayArea extends RectangleComponent with HasGameReference<DemoFlameGame> {
+  final Player player;
   late TiledComponent level;
+
+  PlayArea({required this.player});
 
   @override
   Future<void> onLoad() async {
@@ -20,8 +23,7 @@ class PlayArea extends RectangleComponent with HasGameReference<DemoFlameGame> {
       for (TiledObject spawnPoint in spawnPoints.objects) {
         switch (spawnPoint.class_) {
           case 'Player':
-            final player =
-                Player(position: Vector2(spawnPoint.x, spawnPoint.y));
+            player.position = Vector2(spawnPoint.x, spawnPoint.y);
             add(player);
             break;
         }

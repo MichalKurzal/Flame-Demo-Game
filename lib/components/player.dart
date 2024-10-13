@@ -1,8 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:demo_flame_game/demo_flame_game.dart';
 import 'package:flame/components.dart';
-import 'package:flutter/src/services/hardware_keyboard.dart';
+import 'package:flutter/services.dart';
 
 enum PlayerState { down, up, left, right }
 
@@ -10,7 +11,7 @@ enum PlayerDirection { down, up, left, right, none }
 
 class Player extends SpriteAnimationGroupComponent
     with HasGameRef<DemoFlameGame>, KeyboardHandler {
-  Player({super.position});
+  Player({super.position, required this.joystick});
 
   late SpriteAnimation downAnimation;
   late SpriteAnimation upAnimation;
@@ -22,6 +23,8 @@ class Player extends SpriteAnimationGroupComponent
   Vector2 velocity = Vector2.zero();
   bool isFacingLeft = true;
 
+  final JoystickComponent joystick;
+
   @override
   Future<void> onLoad() async {
     _loadAnimations();
@@ -31,6 +34,10 @@ class Player extends SpriteAnimationGroupComponent
   @override
   void update(double dt) {
     _updatePlayerMovement(dt);
+    if (Platform.isAndroid || Platform.isIOS) {
+      _updateJoystick(dt);
+    }
+
     super.update(dt);
   }
 
@@ -135,5 +142,24 @@ class Player extends SpriteAnimationGroupComponent
     }
     velocity = Vector2(directionX, directionY);
     position += velocity * dt;
+  }
+
+  void _updateJoystick(double dt) {
+    switch (joystick.direction) {
+      case JoystickDirection.left:
+        playerDirection = PlayerDirection.left;
+        break;
+      case JoystickDirection.right:
+        playerDirection = PlayerDirection.right;
+        break;
+      case JoystickDirection.up:
+        playerDirection = PlayerDirection.up;
+        break;
+      case JoystickDirection.down:
+        playerDirection = PlayerDirection.down;
+        break;
+      default:
+        playerDirection = PlayerDirection.none;
+    }
   }
 }

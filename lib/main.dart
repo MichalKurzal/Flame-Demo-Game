@@ -5,12 +5,12 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isAndroid || Platform.isIOS) {
-    Flame.device.setLandscape();
+    await Flame.device.setLandscape();
   }
-  Flame.device.fullScreen();
+  await Flame.device.fullScreen();
   DemoFlameGame demoGame = DemoFlameGame();
 
   runApp(GameWidget(game: demoGame));
